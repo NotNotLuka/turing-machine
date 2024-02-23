@@ -40,7 +40,7 @@ let action_of_list ls =
     (spl_tapes (List.nth ls 0), 
     spl_tapes (List.nth ls 1), 
     List.nth ls 2) in 
-  {write=(List.map (fun x -> Some x) write);dir=(List.map dir_of_string direct);next_state=state}
+  {write=write;dir=(List.map dir_of_string direct);next_state=state}
 
 
 let parse_instruction s table = 
@@ -49,7 +49,7 @@ let parse_instruction s table =
 
   let state = List.nth line 0 in
   let tape_symbols = Str.split (Str.regexp ",") (List.nth line 1) in
-  let tape_symbols = List.map (fun x -> if x = "" then None else Some x) tape_symbols in
+  let tape_symbols = tape_symbols in
   let acts = List.map action_of_list (create_actions (List.tl (List.tl line))) in
 
   let current = TableMap.find_opt (state) table in 
@@ -75,7 +75,7 @@ let load_table filename =
 let rec tape_init raw_tape prev =
   match raw_tape with
   | h :: t -> 
-    let current = {left=prev; right=Empty; value=Some h} in 
+    let current = {left=prev; right=Empty; value=h} in 
     Node {current with right=(tape_init t (Node current))}
   | [] -> Empty
 

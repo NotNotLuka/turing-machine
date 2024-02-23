@@ -17,7 +17,7 @@ let read_tape node =
   | Node node -> left_aux node.left [] @ [Node node] @ (right_aux node.right [])
 
   
-let move dir node new_value = 
+let move dir node new_value default_value = 
   match dir, node with
   (* when writing a new value to the current node. 
      We leave the neighbour we're moving to as Empty
@@ -34,11 +34,11 @@ let move dir node new_value =
 
   | Left, Node {left=Empty;right=right;_} ->  
     let new_cur = Node {left=Empty;right=right;value=new_value} in
-    Node {left=Empty; right=new_cur; value=None}
+    Node {left=Empty; right=new_cur; value=default_value}
 
   | Right, Node {right=Empty;left=left;_} -> 
     let new_cur = Node {right=Empty;left=left;value=new_value} in
-    Node {left=new_cur; right=Empty; value=None}
+    Node {left=new_cur; right=Empty; value=default_value}
 
   | Neutral, Node next -> Node {next with value=new_value}
   | _, Empty -> failwith "Moving without a node"

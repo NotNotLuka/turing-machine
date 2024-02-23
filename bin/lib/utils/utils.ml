@@ -20,7 +20,7 @@ let string_of_direction = function
 
 let print_action action =
   print_string "write: ";
-  List.iter (fun x -> print_string (" " ^ (match x with | Some y -> y | None -> ""))) action.write;print_newline ();
+  List.iter print_string action.write;print_newline ();
   print_string "dir: ";
   List.iter (fun x -> print_string (" " ^ (string_of_direction x))) action.dir;print_newline ();
   print_endline ("next_state:" ^ action.next_state ^ "\n")
@@ -29,10 +29,8 @@ let print_action action =
 let print_node node =
   match node with
   | Empty -> print_string "Empty"
-  | Node {value;_} -> 
-    match value with
-    | Some v -> print_string (v ^ " ")
-    | None -> print_string ("Empty")
+  | Node {value;_} -> print_string (value ^ " ")
+
 
 let print_tape tape =
   let tape_list = read_tape tape in 
