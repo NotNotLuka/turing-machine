@@ -1,0 +1,4 @@
+(executable
+ (public_name turing)
+ (name main)
+ (libraries tape compiler))
