@@ -1,20 +1,5 @@
 open Types
-
-let read_tape node = 
-  let rec left_aux node acc = 
-    match node with
-    | Node left_node-> 
-      left_aux (left_node.left) (node :: acc)
-    | Empty -> acc in 
-  let rec right_aux node acc =
-    match node with
-    | Node right_node -> 
-      right_aux (right_node.right) (node :: acc)
-    | Empty -> List.rev acc in
-  
-  match node with
-  | Empty -> []
-  | Node node -> left_aux node.left [] @ [Node node] @ (right_aux node.right [])
+open Tape_utils
 
 (* https://stackoverflow.com/questions/5774934/how-do-i-read-in-lines-from-a-text-file-in-ocaml#5775024 *)
 let read_file filename = 
@@ -34,17 +19,28 @@ let string_of_direction = function
 | Neutral -> "Neutral"
 
 let print_action action =
-  let print_list = List.iter (fun x -> print_string (" " ^ x)) in
-  print_endline "write:";
-  print_list action.write;
-  print_endline "dir:";
-  List.iter (fun x -> print_string (" " ^ (string_of_direction x))) action.dir;
-  Printf.printf "next_state: %s\n" action.next_state
+  print_string "write: ";
+  List.iter (fun x -> print_string (" " ^ (match x with | Some y -> y | None -> ""))) action.write;print_newline ();
+  print_string "dir: ";
+  List.iter (fun x -> print_string (" " ^ (string_of_direction x))) action.dir;print_newline ();
+  print_endline ("next_state:" ^ action.next_state ^ "\n")
 
 
 let print_node node =
   match node with
   | Empty -> print_string "Empty"
   | Node {value;_} -> 
-    print_string ("Node: " ^ value ^ ", ")
+    match value with
+    | Some v -> print_string (v ^ " ")
+    | None -> print_string ("Empty")
 
+let print_tape tape =
+  let tape_list = read_tape tape in 
+  List.iter print_node tape_list;print_newline ();
+  ()
+
+let print_head head =
+  print_string ("register: " ^ head.register ^ "\n");
+  List.iter print_node head.nodes;print_newline ();
+  List.iter print_tape head.nodes;
+  ()

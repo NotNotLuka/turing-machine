@@ -1,27 +1,19 @@
 open Types
 open Utils
 open Loader
-open Tape_utils
+(* open Tape_utils *)
+open Compiler
 
-let instruct = load_table "data/test";;
-let x = TableMap.find "0" instruct;;
-let y = TapeMap.find ["1"] x;;
-let z = TapeMap.find ["0"] x;;
-List.iter print_action y;;
-List.iter print_action z;;
-
+let table = load_table "data/test";;
 let tapes = load_all_tapes "data/tape";;
 
-let first = (List.nth tapes 1);;
+List.iter (print_tape;) tapes;
 
-print_node first;
-print_newline ();
-List.iter print_node (read_tape first);
-print_newline ();
+let heads = [{register="0";nodes=tapes}] in 
 
-let first = move Neutral first "111111" in
+let step_function = (make_step table) in
 
-print_node first;
-print_newline ();
-List.iter print_node (read_tape first);
-print_newline ();
+let x = List.fold_left (fun acc x -> (step_function x) @ acc) [] heads in 
+
+print_head (List.hd x)
+
