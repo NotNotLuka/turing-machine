@@ -5,10 +5,10 @@ open Tape_utils
 
 let instruct = load_table "data/test";;
 let x = TableMap.find "0" instruct;;
-let y = TapeMap.find "1" x;;
-let z = TapeMap.find "0" x;;
-print_action y;;
-print_action z;;
+let y = TapeMap.find ["1"] x;;
+let z = TapeMap.find ["0"] x;;
+List.iter print_action y;;
+List.iter print_action z;;
 
 let tapes = load_all_tapes "data/tape";;
 

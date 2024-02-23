@@ -6,7 +6,7 @@ and node =
 
 type direction = Left | Right | Neutral
 
-type action = {write: string; dir: direction; next_state: string}
+type action = {write: string list; dir: direction list; next_state: string}
 
 module TableMap = Map.Make(struct
   type t = string
@@ -14,7 +14,7 @@ module TableMap = Map.Make(struct
 end)
 
 module TapeMap = Map.Make(struct
-  type t = string
+  type t = string list
   let compare = compare
 end)
 

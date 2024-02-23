@@ -34,10 +34,12 @@ let string_of_direction = function
 | Neutral -> "Neutral"
 
 let print_action action =
-  Printf.printf "write: %s, dir: %s, next_state: %s\n"
-    action.write
-    (string_of_direction action.dir)
-    action.next_state
+  let print_list = List.iter (fun x -> print_string (" " ^ x)) in
+  print_endline "write:";
+  print_list action.write;
+  print_endline "dir:";
+  List.iter (fun x -> print_string (" " ^ (string_of_direction x))) action.dir;
+  Printf.printf "next_state: %s\n" action.next_state
 
 
 let print_node node =
