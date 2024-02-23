@@ -1,4 +1,4 @@
 (executable
  (public_name turing)
  (name main)
- (libraries tape compiler))
+ (libraries types utils loader tape_utils))
