@@ -33,12 +33,18 @@ let print_node node =
 
 
 let print_tape tape =
-  let tape_list = read_tape tape in 
-  List.iter print_node tape_list;print_newline ();
-  ()
+  match tape with
+  | Node node ->
+    let left = left_side_of_tape node.left in 
+    let right = right_side_of_tape node.right in
+    List.iter print_node left;
+    print_string ("|" ^ node.value ^ "| ");
+    List.iter print_node right;
+    ()
+  | Empty -> ()
 
-let print_head head =
+let print_head n head =
+  print_endline ("Printing head " ^ (string_of_int n));
   print_string ("register: " ^ head.register ^ "\n");
-  List.iter print_node head.nodes;print_newline ();
-  List.iter print_tape head.nodes;
+  List.iter print_tape head.nodes;print_newline ();
   ()

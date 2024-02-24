@@ -1,20 +1,23 @@
 open Types
 
-let read_tape node = 
+let left_side_of_tape node =
   let rec left_aux node acc = 
     match node with
     | Node left_node-> 
       left_aux (left_node.left) (node :: acc)
     | Empty -> acc in 
+  left_aux node []
+let right_side_of_tape node =
   let rec right_aux node acc =
     match node with
     | Node right_node -> 
       right_aux (right_node.right) (node :: acc)
     | Empty -> List.rev acc in
-  
+  right_aux node []
+let read_tape node = 
   match node with
   | Empty -> []
-  | Node node -> left_aux node.left [] @ [Node node] @ (right_aux node.right [])
+  | Node node -> left_side_of_tape node.left @ [Node node] @ (right_side_of_tape node.right)
 
   
 let move dir node new_value default_value = 

@@ -21,12 +21,16 @@ List.iter (print_tape;) tapes;
 
 let heads = ref [{register=start_state;nodes=tapes}] in 
 
-while (List.length !heads <> 0) do
+let i = ref 0 in
 
+while (List.length !heads <> 0) do
+  i := !i + 1;
   let step_function = (make_step default_value table) in
   let updated_heads = List.fold_left (fun acc x -> (step_function x) @ acc) [] !heads in 
-  List.iter print_head !heads;
+  print_endline ("Step " ^ (string_of_int !i));
+  let _ = List.fold_left (fun acc x -> print_head acc x;acc+1) 0 !heads in
+  print_newline ();
   let filtered_heads = List.filter (fun x -> x.register <> "HALT") updated_heads in 
   heads := filtered_heads;
-
+  Unix.sleepf 0.5;
 done
