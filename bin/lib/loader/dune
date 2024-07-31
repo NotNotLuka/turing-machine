@@ -1,3 +1,0 @@
-(library
- (name loader)
- (libraries types utils str))

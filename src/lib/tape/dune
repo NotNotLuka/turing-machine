@@ -1,0 +1,3 @@
+(library
+ (name tape)
+ (libraries str table utils))
