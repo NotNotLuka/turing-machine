@@ -145,7 +145,7 @@ end
 
 
 (* Module for downloading tape *)
-module Tape_load = struct
+module Tape_load : TAPE_LOAD = struct
     open Utils
     open Tape
     (* load tape *)
